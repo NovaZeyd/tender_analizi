@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0d1b2e;
+    color: #e2eaf4;
+    font-family: 'Trebuchet MS', 'Segoe UI', Helvetica, Arial, sans-serif;
+    width: 1080px;
+    min-height: 1920px;
+    padding: 80px 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(59,130,246,0.15);
+    background: radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.12) 0%, transparent 60%);
+    padding-top: 20px;
+    border-radius: 24px;
+    margin-bottom: 44px;
+  }
+  .brand {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.32em;
+    color: #60a5fa; text-transform: uppercase; margin-bottom: 22px; display: block;
+  }
+  .hero h1 {
+    font-size: 64px; font-weight: 700; line-height: 1.1;
+    color: #fff; margin-bottom: 22px; letter-spacing: -1px;
+  }
+  .hero h1 .accent { color: #60a5fa; }
+  .hero-sub { font-size: 20px; color: #7a9bbf; line-height: 1.7; }
+  .hero-sub strong { color: #60a5fa; font-weight: 600; }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.28em;
+    color: #60a5fa; text-transform: uppercase; opacity: 0.7; margin-bottom: 24px; display: block;
+  }
+
+  /* SERVICES */
+  .services { margin-bottom: 44px; }
+  .service-item {
+    display: flex; gap: 22px; align-items: flex-start;
+    margin-bottom: 16px; padding: 26px 28px;
+    background: #172d4a; border: 1px solid rgba(59,130,246,0.15); border-radius: 18px;
+  }
+  .num-badge {
+    flex-shrink: 0; width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 700; color: #fff;
+  }
+  .b1{background:#3b82f6;} .b2{background:#22c55e;} .b3{background:#f97316;} .b4{background:#7c3aed;}
+  .service-text h3 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .service-text p { font-size: 16px; color: #7a9bbf; line-height: 1.5; }
+
+  /* PRICING */
+  .pricing { margin-bottom: 44px; }
+  .pricing-grid { display: flex; gap: 20px; }
+  .price-card { border-radius: 22px; padding: 36px 32px; flex: 1; position: relative; }
+  .price-card.standard { background: #172d4a; border: 1px solid rgba(59,130,246,0.18); }
+  .price-card.monthly { background: linear-gradient(145deg,#0c3a4a,#0e4d63,#0f5f7a); border: 1px solid rgba(6,182,212,0.3); }
+  .price-card.monthly .price-unit { color: #67e8f9; }
+  .price-card.monthly .price-features li { color: rgba(255,255,255,0.75); }
+  .price-card.monthly .price-features li::before { background: #67e8f9; }
+  .price-card.premium { background: linear-gradient(145deg,#4c1d95,#6d28d9,#7c3aed); border: 1px solid rgba(167,139,250,0.3); }
+  .price-badge {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
+    background: rgba(255,255,255,0.15); color: #fff;
+    padding: 5px 11px; border-radius: 20px; text-transform: uppercase;
+  }
+  .price-title { font-size: 15px; font-weight: 500; color: #7a9bbf; margin-bottom: 14px; }
+  .price-card.premium .price-title { color: rgba(255,255,255,0.65); }
+  .price-amount { font-size: 64px; font-weight: 800; color: #fff; line-height: 1; }
+  .price-amount sup { font-size: 26px; vertical-align: top; margin-top: 10px; display: inline-block; opacity: 0.85; }
+  .price-unit { font-size: 15px; color: #60a5fa; margin-top: 6px; margin-bottom: 22px; }
+  .price-card.premium .price-unit { color: #a78bfa; }
+  .price-features { list-style: none; }
+  .price-features li {
+    font-size: 15px; color: #7a9bbf; padding: 6px 0;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .price-card.premium .price-features li { color: rgba(255,255,255,0.8); }
+  .price-features li::before {
+    content: ''; width: 6px; height: 6px;
+    background: #60a5fa; border-radius: 50%; flex-shrink: 0;
+  }
+  .price-card.premium .price-features li::before { background: #a78bfa; }
+  .price-fardi { font-size: 32px; font-weight: 800; color: #fff; margin-bottom: 8px; line-height: 1.2; }
+  .contact-link { font-size: 15px; font-weight: 500; color: #a78bfa; text-decoration: none; margin-top: 18px; display: inline-block; }
+
+  /* CTA */
+  .cta-wrap { text-align: center; margin-bottom: 44px; }
+  .cta-btn {
+    display: inline-block;
+    background: linear-gradient(135deg,#f97316,#fb923c);
+    color: #fff; font-size: 22px; font-weight: 700; letter-spacing: 0.03em;
+    padding: 22px 72px; border-radius: 100px; text-decoration: none;
+    box-shadow: 0 10px 40px rgba(249,115,22,0.4);
+  }
+
+  /* CONTACT */
+  .contact {
+    background: #172d4a; border: 1px solid rgba(59,130,246,0.18);
+    border-radius: 24px; padding: 44px 40px; text-align: center; margin-bottom: 36px;
+  }
+  .contact h2 {
+    font-size: 20px; font-weight: 700; letter-spacing: 0.08em;
+    color: #fff; margin-bottom: 30px; text-transform: uppercase;
+  }
+  .contact-items { display: flex; flex-direction: column; gap: 14px; align-items: center; }
+  .contact-pill {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 16px 36px; border-radius: 100px;
+    font-size: 18px; font-weight: 500; text-decoration: none;
+    min-width: 440px; justify-content: center;
+  }
+  .contact-pill.phone { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: #86efac; }
+  .contact-pill.email { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); color: #93c5fd; }
+
+  /* FOOTER */
+  .footer { text-align: center; font-size: 16px; color: #7a9bbf; opacity: 0.55; letter-spacing: 0.03em; }
+</style>
+</head>
+<body>
+
+<div>
+  <!-- HERO -->
+  <section class="hero">
+    <span class="brand">TenderAnaliz</span>
+    <h1>Tender <span class="accent">Avtomatlaşdırma</span> Xidməti</h1>
+    <p class="hero-sub">Tenderləri <strong>avtomatik izləyin, analiz edin, qazanın</strong> — gerisini bizə buraxın!</p>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services">
+    <span class="section-label">Xidmətlərimiz</span>
+    <div class="service-item">
+      <div class="num-badge b1">01</div>
+      <div class="service-text"><h3>Avtomatik Monitorinq</h3><p>Fəaliyyət sahənizə uyğun tenderlər hər gün avtomatik aşkarlanır və sizə çatdırılır</p></div>
+    </div>
+    <div class="service-item">
+      <div class="num-badge b2">02</div>
+      <div class="service-text"><h3>Analiz &amp; Hesabat</h3><p>Hər tender üzrə detallı analiz hesabatları hazırlanır, rəhbərlərə avtomatik göndərilir</p></div>
+    </div>
+    <div class="service-item">
+      <div class="num-badge b3">03</div>
+      <div class="service-text"><h3>Sənəd Hazırlığı &amp; Təqdimat</h3><p>Texniki və maliyyə təkliflərinin hazırlanması, yoxlanması və elektron təqdim edilməsi</p></div>
+    </div>
+    <div class="service-item">
+      <div class="num-badge b4">04</div>
+      <div class="service-text"><h3>Tam Dəstək &amp; Müşayiət</h3><p>Ödənişlər, danışıqlar və tenderin bütün mərhələlərində peşəkar müşayiət</p></div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing">
+    <span class="section-label">Qiymət Paketləri</span>
+    <div class="pricing-grid">
+      <div class="price-card standard">
+        <p class="price-title">Günlük Abunə</p>
+        <div class="price-amount"><sup>₼</sup>2</div>
+        <p class="price-unit">AZN / gün</p>
+        <ul class="price-features">
+          <li>Gündəlik monitorinq</li>
+          <li>Analiz hesabatları</li>
+          <li>Rəhbərliyə avtomatik göndəriş</li>
+        </ul>
+      </div>
+      <div class="price-card monthly">
+        <span class="price-badge" style="background:rgba(6,182,212,0.25);color:#67e8f9;">Sərfəli</span>
+        <p class="price-title">Aylıq Abunə</p>
+        <div class="price-amount"><sup>₼</sup>45</div>
+        <p class="price-unit">AZN / ay</p>
+        <ul class="price-features">
+          <li>Gündəlik monitorinq</li>
+          <li>Analiz hesabatları</li>
+          <li>Rəhbərliyə avtomatik göndəriş</li>
+        </ul>
+      </div>
+      <div class="price-card premium">
+        <span class="price-badge">Premium</span>
+        <p class="price-title">Tender Dəstəyi</p>
+        <div class="price-fardi">Fərdi Qiymət</div>
+        <ul class="price-features">
+          <li>Sənəd hazırlığı</li>
+          <li>Ödəniş &amp; danışıq dəstəyi</li>
+          <li>Tam müşayiət</li>
+        </ul>
+        <a href="#" class="contact-link">Bizimə müraciət edin →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-wrap">
+    <a href="#" class="cta-btn">İlk konsultasiya PULSUZDUR!</a>
+  </div>
+
+  <!-- CONTACT -->
+  <section class="contact">
+    <h2>Bizimlə Əlaqə</h2>
+    <div class="contact-items">
+      <a href="#" class="contact-pill phone">📞 &nbsp;+994 10 331 21 07</a>
+      <a href="#" class="contact-pill email">✉ &nbsp;tenderanaliz.az@gmail.com</a>
+    </div>
+  </section>
+</div>
+
+<p class="footer">Vaxtınıza qənaət edin. Tenderləri bizə etibar edin.</p>
+
+</body>
+</html>
