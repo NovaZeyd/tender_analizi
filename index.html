@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TenderAnaliz — Tender Avtomatlaşdırma Xidməti</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #050c18;
+  --navy2: #0a1628;
+  --navy3: #0f2040;
+  --blue: #2563eb;
+  --blue-light: #60a5fa;
+  --teal: #0d9488;
+  --gold: #d97706;
+  --gold-light: #f59e0b;
+  --text: #f1f5f9;
+  --muted: #64748b;
+  --muted2: #94a3b8;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+
+body {
+  background: var(--navy);
+  color: var(--text);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(5,12,24,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 48px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none;
+}
+.nav-logo-mark {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, #2563eb, #0d9488);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #fff; letter-spacing: -0.5px;
+}
+.nav-logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 600;
+  color: #fff; letter-spacing: 0.02em;
+}
+
+.nav-links {
+  display: flex; align-items: center; gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 13.5px; font-weight: 400; letter-spacing: 0.03em;
+  color: var(--muted2); text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: #fff; }
+
+.nav-cta {
+  font-size: 13px; font-weight: 500;
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 8px 20px; border-radius: 100px;
+  transition: border-color 0.2s, background 0.2s !important;
+}
+.nav-cta:hover {
+  border-color: rgba(255,255,255,0.5) !important;
+  background: rgba(255,255,255,0.07) !important;
+}
+
+/* ── SECTIONS ── */
+section { scroll-margin-top: 64px; }
+
+/* ── HERO ── */
+#home {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px 48px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(13,148,136,0.08) 0%, transparent 50%);
+}
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+.hero-inner { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--blue-light);
+  border: 1px solid rgba(96,165,250,0.25);
+  background: rgba(37,99,235,0.08);
+  padding: 6px 16px; border-radius: 100px;
+  margin-bottom: 32px;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--blue-light);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 7vw, 86px);
+  font-weight: 600;
+  line-height: 1.08;
+  color: #fff;
+  letter-spacing: -1px;
+  margin-bottom: 28px;
+}
+.hero-title .gold {
+  color: var(--gold-light);
+  font-style: italic;
+}
+
+.hero-sub {
+  font-size: 17px; font-weight: 300;
+  color: var(--muted2);
+  max-width: 560px; margin: 0 auto 48px;
+  line-height: 1.8;
+}
+.hero-sub strong { color: var(--text); font-weight: 500; }
+
+.hero-actions {
+  display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;
+}
+.btn-primary {
+  font-size: 14px; font-weight: 500;
+  background: var(--blue);
+  color: #fff; text-decoration: none;
+  padding: 14px 32px; border-radius: 100px;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 0 32px rgba(37,99,235,0.35);
+}
+.btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
+.btn-ghost {
+  font-size: 14px; font-weight: 400;
+  color: var(--muted2); text-decoration: none;
+  padding: 14px 32px; border-radius: 100px;
+  border: 1px solid var(--border2);
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+
+.hero-stats {
+  display: flex; align-items: center; justify-content: center; gap: 48px;
+  margin-top: 80px; padding-top: 48px;
+  border-top: 1px solid var(--border);
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px; font-weight: 600; color: #fff; line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label { font-size: 12px; font-weight: 400; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+/* ── SECTION COMMON ── */
+.section-wrap { max-width: 1100px; margin: 0 auto; padding: 100px 48px; }
+
+.section-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-eyebrow::before {
+  content: ''; width: 24px; height: 1px;
+  background: var(--teal);
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 4vw, 54px);
+  font-weight: 600; line-height: 1.12;
+  color: #fff; letter-spacing: -0.5px;
+  margin-bottom: 20px;
+}
+.section-sub {
+  font-size: 16px; font-weight: 300;
+  color: var(--muted2); max-width: 540px; line-height: 1.8;
+}
+
+/* ── SERVICES ── */
+#xidmetler { background: var(--navy); }
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+  margin-top: 64px;
+}
+.service-card {
+  background: var(--navy2);
+  padding: 44px 40px;
+  transition: background 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.service-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(37,99,235,0.5), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.service-card:hover { background: var(--navy3); }
+.service-card:hover::before { opacity: 1; }
+
+.service-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.1em;
+  color: var(--muted); margin-bottom: 20px;
+}
+.service-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 20px;
+}
+.s-icon-blue { background: rgba(37,99,235,0.15); }
+.s-icon-teal { background: rgba(13,148,136,0.15); }
+.s-icon-gold { background: rgba(217,119,6,0.15); }
+.s-icon-purple { background: rgba(124,58,237,0.15); }
+
+.service-title {
+  font-size: 19px; font-weight: 600; color: #fff;
+  margin-bottom: 12px; letter-spacing: -0.2px;
+}
+.service-desc { font-size: 14.5px; color: var(--muted2); line-height: 1.75; }
+
+/* ── HOW IT WORKS ── */
+#necedir { background: linear-gradient(180deg, var(--navy) 0%, var(--navy2) 100%); }
+.steps-list {
+  display: flex; flex-direction: column; gap: 0;
+  margin-top: 64px;
+  position: relative;
+}
+.steps-list::before {
+  content: '';
+  position: absolute; left: 28px; top: 56px; bottom: 56px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--blue), var(--teal), transparent);
+}
+.step-item {
+  display: flex; gap: 36px; align-items: flex-start;
+  padding: 36px 0;
+  border-bottom: 1px solid var(--border);
+}
+.step-item:last-child { border-bottom: none; }
+.step-num {
+  flex-shrink: 0;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--navy3);
+  border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 600; color: var(--blue-light);
+  position: relative; z-index: 1;
+}
+.step-content { flex: 1; padding-top: 12px; }
+.step-title { font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 10px; }
+.step-desc { font-size: 14.5px; color: var(--muted2); line-height: 1.75; }
+.step-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.step-tag {
+  font-size: 12px; font-weight: 500;
+  color: var(--blue-light);
+  background: rgba(37,99,235,0.1);
+  border: 1px solid rgba(37,99,235,0.2);
+  padding: 4px 12px; border-radius: 100px;
+}
+
+/* ── PRICING ── */
+#qiymet { background: var(--navy); }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 64px;
+}
+.price-card {
+  border-radius: 20px;
+  padding: 40px 32px;
+  border: 1px solid var(--border);
+  background: var(--navy2);
+  position: relative;
+  transition: transform 0.25s, border-color 0.25s;
+}
+.price-card:hover { transform: translateY(-4px); }
+.price-card.featured {
+  border-color: rgba(37,99,235,0.4);
+  background: linear-gradient(145deg, #0a1f45, #0f2855);
+}
+.price-card.featured::before {
+  content: 'Ən Populyar';
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+  background: var(--blue); color: #fff;
+  padding: 5px 16px; border-radius: 100px;
+  white-space: nowrap;
+}
+.price-name { font-size: 13px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
+.price-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px; font-weight: 600;
+  color: #fff; line-height: 1; margin-bottom: 6px;
+}
+.price-amount sup { font-size: 22px; vertical-align: top; margin-top: 10px; display: inline-block; }
+.price-period { font-size: 13px; color: var(--muted); margin-bottom: 32px; }
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+.price-features li {
+  font-size: 14px; color: var(--muted2);
+  display: flex; align-items: center; gap: 10px;
+}
+.price-features li::before {
+  content: '';
+  width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(13,148,136,0.15);
+  border: 1px solid rgba(13,148,136,0.4);
+  position: relative;
+}
+.price-features li::after {
+  display: none;
+}
+.price-check {
+  width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(13,148,136,0.15);
+  border: 1px solid rgba(13,148,136,0.4);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.price-feature-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14px; color: var(--muted2);
+}
+.check-circle {
+  width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(13,148,136,0.15);
+  border: 1px solid rgba(13,148,136,0.3);
+  display: flex; align-items: center; justify-content: center;
+}
+.check-circle svg { width: 10px; height: 10px; }
+
+.price-btn {
+  display: block; text-align: center;
+  font-size: 14px; font-weight: 500;
+  padding: 13px 24px; border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.price-btn-outline {
+  color: var(--muted2); border: 1px solid var(--border2);
+}
+.price-btn-outline:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+.price-btn-solid {
+  background: var(--blue); color: #fff;
+  box-shadow: 0 4px 20px rgba(37,99,235,0.3);
+}
+.price-btn-solid:hover { background: #1d4ed8; }
+.price-btn-premium {
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(124,58,237,0.3);
+}
+.price-btn-premium:hover { opacity: 0.9; }
+
+/* ── FAQ ── */
+#faq { background: linear-gradient(180deg, var(--navy) 0%, var(--navy2) 100%); }
+.faq-list { margin-top: 64px; display: flex; flex-direction: column; gap: 1px; }
+.faq-item {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.faq-q {
+  width: 100%; text-align: left;
+  padding: 22px 28px;
+  font-size: 16px; font-weight: 500; color: #fff;
+  background: none; border: none; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 16px;
+  transition: background 0.2s;
+}
+.faq-q:hover { background: rgba(255,255,255,0.03); }
+.faq-icon {
+  width: 28px; height: 28px; flex-shrink: 0;
+  border: 1px solid var(--border2); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: var(--muted2); line-height: 1;
+  transition: transform 0.25s;
+}
+.faq-a {
+  padding: 0 28px;
+  font-size: 14.5px; color: var(--muted2); line-height: 1.8;
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s;
+}
+.faq-item.open .faq-a { max-height: 300px; padding: 0 28px 22px; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+
+/* ── CONTACT ── */
+#elaqe { background: var(--navy); }
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: start;
+  margin-top: 64px;
+}
+.contact-form-wrap { }
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-field { display: flex; flex-direction: column; gap: 8px; }
+.form-label { font-size: 13px; font-weight: 500; color: var(--muted2); letter-spacing: 0.03em; }
+.form-input {
+  background: var(--navy2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 14px; color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-input:focus { border-color: rgba(37,99,235,0.6); }
+.form-input::placeholder { color: var(--muted); }
+.form-textarea { resize: vertical; min-height: 120px; }
+.form-submit {
+  background: var(--blue); color: #fff;
+  font-size: 14px; font-weight: 500;
+  padding: 14px 32px; border-radius: 100px;
+  border: none; cursor: pointer;
+  transition: background 0.2s;
+  align-self: flex-start;
+  font-family: 'DM Sans', sans-serif;
+  box-shadow: 0 4px 20px rgba(37,99,235,0.3);
+}
+.form-submit:hover { background: #1d4ed8; }
+
+.contact-info { display: flex; flex-direction: column; gap: 28px; }
+.contact-info-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-weight: 600; color: #fff;
+  margin-bottom: 8px; line-height: 1.2;
+}
+.contact-info-sub { font-size: 14.5px; color: var(--muted2); line-height: 1.8; margin-bottom: 8px; }
+.contact-detail-list { display: flex; flex-direction: column; gap: 12px; }
+.contact-detail {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px;
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+.contact-detail:hover { border-color: var(--border2); }
+.contact-detail-icon {
+  width: 36px; height: 36px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.ci-phone { background: rgba(13,148,136,0.15); }
+.ci-email { background: rgba(37,99,235,0.15); }
+.ci-linkedin { background: rgba(10,102,194,0.2); }
+.ci-location { background: rgba(217,119,6,0.15); }
+.contact-detail-text { }
+.contact-detail-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px; }
+.contact-detail-value { font-size: 14px; color: var(--text); font-weight: 500; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--navy2);
+  border-top: 1px solid var(--border);
+  padding: 48px;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center; gap: 32px;
+  flex-wrap: wrap;
+}
+.footer-logo {
+  display: flex; align-items: center; gap: 12px; text-decoration: none;
+}
+.footer-tagline { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.footer-links { display: flex; gap: 32px; }
+.footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--text); }
+.footer-copy { font-size: 12px; color: var(--muted); }
+
+/* ── SMOOTH PAGE TRANSITIONS ── */
+.fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">
+    <div class="nav-logo-mark">TA</div>
+    <span class="nav-logo-text">TenderAnaliz</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#xidmetler">Xidmətlər</a></li>
+    <li><a href="#necedir">Necə İşləyir</a></li>
+    <li><a href="#qiymet">Qiymətlər</a></li>
+    <li><a href="#faq">Sual-Cavab</a></li>
+    <li><a href="#elaqe" class="nav-cta">Əlaqə</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Azərbaycanın Premium Tender Xidməti
+    </div>
+    <h1 class="hero-title">
+      Tenderləri <span class="gold">avtomatik</span><br>
+      izləyin, analiz edin,<br>qazanın
+    </h1>
+    <p class="hero-sub">
+      <strong>Peşəkar tender dəstəyi</strong> ilə sənəd hazırlığından müqavilə bağlanmasına qədər hər mərhələdə yanınızdayıq. Gerisini bizə buraxın.
+    </p>
+    <div class="hero-actions">
+      <a href="#elaqe" class="btn-primary">Pulsuz Konsultasiya Al</a>
+      <a href="#xidmetler" class="btn-ghost">Xidmətlərə bax →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">Uğurlu Tender</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4+</div>
+        <div class="stat-label">İl Təcrübə</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">₼2</div>
+        <div class="stat-label">Gündən başlayaraq</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Monitorinq</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── XİDMƏTLƏR ── -->
+<section id="xidmetler">
+  <div class="section-wrap fade-in">
+    <div class="section-eyebrow">Xidmətlərimiz</div>
+    <h2 class="section-title">Tenderdə uğur üçün<br>hər şey bir yerdə</h2>
+    <p class="section-sub">Monitorinqdən tutmuş müqavilə bağlanmasına qədər tam xidmət paketi.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-icon s-icon-blue">📡</div>
+        <div class="service-title">Avtomatik Monitorinq</div>
+        <div class="service-desc">Fəaliyyət sahənizə uyğun tenderlər hər gün bütün platformalarda avtomatik aşkarlanır, filtirlənir və sizə birbaşa çatdırılır. Heç bir elan sizdən keçməz.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-icon s-icon-teal">📊</div>
+        <div class="service-title">Analiz &amp; Hesabat</div>
+        <div class="service-desc">Hər tender üzrə detallı analiz: rəqib qiymətləri, şərtlərin araşdırılması, uğur ehtimalı hesabatları. Rəhbərlərə avtomatik göndərilir.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-icon s-icon-gold">📋</div>
+        <div class="service-title">Sənəd Hazırlığı</div>
+        <div class="service-desc">Texniki təklif, maliyyə təklifi, ixtisas sənədləri — hamısı peşəkar hazırlanır, yoxlanılır. e-Tender platformasında elektron təqdim edilir.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <div class="service-icon s-icon-purple">🤝</div>
+        <div class="service-title">Tam Dəstək &amp; Müşayiət</div>
+        <div class="service-desc">Danışıqlar, ödənişlər, müqavilə sonrası proseslər — tenderin bütün mərhələlərindən peşəkar keçid. Siz yalnız qərar verin.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NECƏ İŞLƏYİR ── -->
+<section id="necedir">
+  <div class="section-wrap fade-in">
+    <div class="section-eyebrow">Necə İşləyir</div>
+    <h2 class="section-title">4 addımda<br>tender uğuru</h2>
+    <p class="section-sub">Prosesi tam idarə edirik — siz yalnız son nəticəni alırsınız.</p>
+    <div class="steps-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Sahənizi təyin edirik</div>
+          <div class="step-desc">İlk görüşdə fəaliyyət sahənizi, imkanlarınızı və hədəf bazarı müəyyən edirik. Filtrlər qurulur, sistem işə salınır.</div>
+          <div class="step-tags"><span class="step-tag">Pulsuz Konsultasiya</span><span class="step-tag">24 Saat İçində</span></div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Sistem tenderləri tapır</div>
+          <div class="step-desc">Hər gün bütün dövlət və özəl platformalarda sizin sahənizə uyğun tenderləri avtomatik aşkarlayırıq. Sabah məlumat bu gün gəlir.</div>
+          <div class="step-tags"><span class="step-tag">Gündəlik Monitorinq</span><span class="step-tag">Bütün Platformalar</span><span class="step-tag">Avtomatik Filtir</span></div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Analiz &amp; sənəd hazırlanır</div>
+          <div class="step-desc">Hər tender üçün detallı analiz hazırlanır. Müvafiq tenderlər üçün sənədlər — texniki, maliyyə, ixtisas — peşəkar şəkildə tamamlanır.</div>
+          <div class="step-tags"><span class="step-tag">Rəqib Analizi</span><span class="step-tag">Sənəd Hazırlığı</span><span class="step-tag">e-Tender</span></div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Müqavilə bağlanır</div>
+          <div class="step-desc">Tender qazanıldıqda danışıqlar, müqavilə şərtləri və sonrakı ödəniş prosesləri üzərində də dəstək davam edir. Uğur tam dəstəklə gəlir.</div>
+          <div class="step-tags"><span class="step-tag">Danışıqlar</span><span class="step-tag">Müqavilə Dəstəyi</span><span class="step-tag">Ödəniş İzləmə</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── QİYMƏT ── -->
+<section id="qiymet">
+  <div class="section-wrap fade-in">
+    <div class="section-eyebrow">Qiymət Paketləri</div>
+    <h2 class="section-title">Hər büdcəyə<br>uyğun paket</h2>
+    <p class="section-sub">Gündəlik ödəniş imkanından tam müşayiətə qədər seçin.</p>
+    <div class="pricing-grid">
+
+      <!-- Günlük -->
+      <div class="price-card">
+        <div class="price-name">Günlük</div>
+        <div class="price-amount"><sup>₼</sup>2</div>
+        <div class="price-period">AZN / gün</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px;">
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>Gündəlik monitorinq</div>
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>Analiz hesabatı</div>
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>E-mail bildirişlər</div>
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>Rəhbərliyə göndəriş</div>
+        </div>
+        <a href="https://wa.me/994103312107?text=Salam%2C%20G%C3%BCnl%C3%BCk%20paket%20bar%C9%99d%C9%99%20m%C9%99lumat%20almaq%20ist%C9%99yir%C9%99m" target="_blank" class="price-btn price-btn-outline">Başla</a>
+      </div>
+
+      <!-- Aylıq — Featured -->
+      <div class="price-card featured">
+        <div class="price-name">Aylıq</div>
+        <div class="price-amount"><sup>₼</sup>45</div>
+        <div class="price-period">AZN / ay · ₼1.50/gün</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px;">
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>Gündəlik monitorinq</div>
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>Detallı analiz hesabatları</div>
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>Rəqib qiymət analizi</div>
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>WhatsApp/E-mail bildiriş</div>
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>Prioritet dəstək</div>
+        </div>
+        <a href="https://wa.me/994103312107?text=Salam%2C%20Ayl%C4%B1q%20paket%20bar%C9%99d%C9%99%20m%C9%99lumat%20almaq%20ist%C9%99yir%C9%99m" target="_blank" class="price-btn price-btn-solid">Aylıq Başla</a>
+      </div>
+
+      <!-- Premium -->
+      <div class="price-card">
+        <div class="price-name">Premium</div>
+        <div class="price-amount" style="font-size:34px;margin-bottom:4px;">Fərdi</div>
+        <div class="price-period">Qiymət · Görüşdə müəyyən edilir</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px;">
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>Tam sənəd hazırlığı</div>
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>Ödəniş &amp; danışıq dəstəyi</div>
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>Müqavilə sonrası izləmə</div>
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>Şəxsi mütəxəssis</div>
+          <div class="price-feature-item"><div class="check-circle"><svg viewBox="0 0 10 10" fill="none"><polyline points="2,5 4,7 8,3" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/></svg></div>7/24 prioritet əlaqə</div>
+        </div>
+        <a href="https://wa.me/994103312107?text=Salam%2C%20Premium%20paket%20bar%C9%99d%C9%99%20m%C9%99lumat%20almaq%20ist%C9%99yir%C9%99m" target="_blank" class="price-btn price-btn-premium">Müraciət Et</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq">
+  <div class="section-wrap fade-in">
+    <div class="section-eyebrow">Sual-Cavab</div>
+    <h2 class="section-title">Tez-tez soruşulan<br>suallar</h2>
+    <p class="section-sub">Cavab tapa bilmədiyiniz suallarınız üçün birbaşa əlaqə saxlayın.</p>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Tender avtomatlaşdırılması nədir?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">Tender avtomatlaşdırılması — dövlət və özəl satınalma elanlarının süni intellekt və rəqəmsal alətlər vasitəsilə avtomatik izlənməsi, filtrlənməsi və sizə çatdırılması prosesidir. Əvvəllər saatlar alan iş indi saniyələr içində tamamlanır. Siz sahənizə uyğun tenderləri vaxtında əldə edirsiniz.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Xidmətdən istifadə etmək üçün nə lazımdır?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">Sadəcə bizə müraciət edin. İlk görüşdə fəaliyyət sahənizi, şirkət məlumatlarınızı öyrənib filtrlər qururuq. Texniki biliyə ehtiyac yoxdur — sistem hərtərəfli konfiqurasiya olunur. 24 saat ərzində xidmət aktiv olur.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Günlük paket necə işləyir?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">Günlük ₼2 paketdə hər gün sahənizə uyğun tenderlər aşkarlanır, analiz hesabatı hazırlanır və rəhbərliyə göndərilir. İstənilən gün dayandırmaq mümkündür. Aylıq paketa keçid etdikdə ₼1.50/gün qiymətlə daha sərfəli olur.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Sənəd hazırlığı xidməti nəyi əhatə edir?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">Texniki təklif, maliyyə təklifi, ixtisas sənədləri, lisenziyalar — hamısı peşəkar hazırlanır. Sənədlər tender şərtlərinə tam uyğun olacaq şəkildə yoxlanılır. e-Tender platformasında elektron imzalı şəkildə təqdim edilir.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          İlk konsultasiya həqiqətən pulsuzdurmu?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">Bəli, tamamilə pulsuzdur. İlk görüşdə fəaliyyət sahənizi analiz edir, mövcud tender imkanlarını göstərir, uyğun paketi tövsiyə edirik. Heç bir öhdəlik olmadan qərar verə bilərsiniz.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Hansı sahələrdə xidmət göstərirsiniz?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-a">İnşaat, tibb, texnologiya, təchizat, xidmət, mallar — dövlət və özəl sektorun bütün sahələrini əhatə edirik. Azərbaycanda fəaliyyət göstərən hər növ şirkətə dəstək göstəririk.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ƏLAQƏ ── -->
+<section id="elaqe">
+  <div class="section-wrap fade-in">
+    <div class="section-eyebrow">Əlaqə</div>
+    <h2 class="section-title">Bizimlə əlaqə<br>saxlayın</h2>
+    <div class="contact-grid">
+
+      <div class="contact-form-wrap">
+        <p style="font-size:15px;color:var(--muted2);margin-bottom:28px;line-height:1.8;">
+          Pulsuz konsultasiya üçün aşağıdakı formu doldurun. 24 saat ərzində sizinlə əlaqə saxlayacağıq.
+        </p>
+        <form class="contact-form" id="contactForm" onsubmit="submitForm(event)">
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label">Ad Soyad</label>
+              <input class="form-input" type="text" name="ad_soyad" placeholder="Adınız" required>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Şirkət</label>
+              <input class="form-input" type="text" name="sirket" placeholder="Şirkət adı">
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Telefon</label>
+            <input class="form-input" type="tel" name="telefon" placeholder="+994 __ ___ __ __" required>
+          </div>
+          <div class="form-field">
+            <label class="form-label">E-mail</label>
+            <input class="form-input" type="email" name="email" placeholder="email@domain.com">
+          </div>
+          <div class="form-field">
+            <label class="form-label">Mesaj</label>
+            <textarea class="form-input form-textarea" name="mesaj" placeholder="Sualınız və ya qeydləriniz..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Göndər →</button>
+        </form>
+        <div id="form-success" style="display:none;margin-top:16px;padding:14px 20px;background:rgba(13,148,136,0.1);border:1px solid rgba(13,148,136,0.3);border-radius:10px;font-size:14px;color:#5eead4;">
+          ✓ Mesajınız göndərildi! Tezliklə sizinlə əlaqə saxlayacağıq.
+        </div>
+      </div>
+
+      <div class="contact-info">
+        <div>
+          <div class="contact-info-title">İlk konsultasiya<br>tamamilə pulsuzdur</div>
+          <div class="contact-info-sub">Tender imkanlarınızı birlikdə kəşf edək. Görüşdə heç bir öhdəlik yoxdur.</div>
+        </div>
+        <div class="contact-detail-list">
+          <a href="tel:+994103312107" class="contact-detail" style="cursor:pointer;">
+            <div class="contact-detail-icon ci-phone">📞</div>
+            <div class="contact-detail-text">
+              <div class="contact-detail-label">Telefon</div>
+              <div class="contact-detail-value">+994 10 331 21 07</div>
+            </div>
+          </a>
+          <a href="mailto:tenderanaliz.az@gmail.com" class="contact-detail">
+            <div class="contact-detail-icon ci-email">✉</div>
+            <div class="contact-detail-text">
+              <div class="contact-detail-label">E-mail</div>
+              <div class="contact-detail-value">tenderanaliz.az@gmail.com</div>
+            </div>
+          </a>
+          <a href="https://wa.me/994103312107?text=Salam%2C%20tender%20xidm%C9%99ti%20bar%C9%99d%C9%99%20m%C9%99lumat%20almaq%20ist%C9%99yir%C9%99m" class="contact-detail" target="_blank">
+            <div class="contact-detail-icon" style="background:rgba(37,211,102,0.15);">💬</div>
+            <div class="contact-detail-text">
+              <div class="contact-detail-label">WhatsApp</div>
+              <div class="contact-detail-value">+994 10 331 21 07</div>
+            </div>
+          </a>
+          <div class="contact-detail" style="cursor:default;">
+            <div class="contact-detail-icon ci-location">📍</div>
+            <div class="contact-detail-text">
+              <div class="contact-detail-label">Ünvan</div>
+              <div class="contact-detail-value">Bakı, Azərbaycan</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">
+        <div class="nav-logo-mark">TA</div>
+        <span class="nav-logo-text">TenderAnaliz</span>
+      </div>
+      <div class="footer-tagline">Vaxtınıza qənaət edin. Tenderləri bizə etibar edin.</div>
+    </div>
+    <div class="footer-links">
+      <a href="#xidmetler">Xidmətlər</a>
+      <a href="#qiymet">Qiymətlər</a>
+      <a href="#faq">FAQ</a>
+      <a href="#elaqe">Əlaqə</a>
+    </div>
+    <div class="footer-copy">© 2025 TenderAnaliz. Bütün hüquqlar qorunur.</div>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+function submitForm(e) {
+  e.preventDefault();
+  const form = e.target;
+  const ad = form.ad_soyad.value;
+  const sirket = form.sirket.value;
+  const tel = form.telefon.value;
+  const email = form.email.value;
+  const mesaj = form.mesaj.value;
+
+  const subject = encodeURIComponent('TenderAnaliz - Yeni Müraciət: ' + ad);
+  const body = encodeURIComponent(
+    'Ad Soyad: ' + ad + '\n' +
+    'Şirkət: ' + (sirket || '-') + '\n' +
+    'Telefon: ' + tel + '\n' +
+    'E-mail: ' + (email || '-') + '\n\n' +
+    'Mesaj:\n' + (mesaj || '-')
+  );
+
+  document.getElementById('form-success').style.display = 'block';
+  
+  setTimeout(() => {
+    window.location.href = 'mailto:abulfazmahmudzada@gmail.com?subject=' + subject + '&body=' + body;
+    form.reset();
+  }, 800);
+}
+
+// Scroll fade-in
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Active nav link
+window.addEventListener('scroll', () => {
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-links a');
+  let current = '';
+  sections.forEach(section => {
+    if (window.scrollY >= section.offsetTop - 100) current = section.getAttribute('id');
+  });
+  links.forEach(link => {
+    link.style.color = link.getAttribute('href') === '#' + current ? '#fff' : '';
+  });
+});
+</script>
+</body>
+</html>
